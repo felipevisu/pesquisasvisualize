@@ -1,0 +1,65 @@
+{% load mathfilters %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex align-items-center">
+            <h5 class="card-title my-0">{{ survey }}</h5>
+            <div class="dropdown ml-auto mr-0">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Editar
+                </button>
+                {% if perms.surveys.change_survey %}
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'surveys:regional_update' survey.pk %}">Editar</a>
+                    <a class="dropdown-item" href="{% url 'surveys:ordered' survey.pk %}">Ordenar</a>
+                    <a class="dropdown-item" href="{% url 'surveys:delete' survey.pk %}" >Excluir</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <hr/>
+        <div class="">
+            {% with surv.num_responses|mul:100|intdiv:survey.max_responses as progress %}
+            <div class="mb-1 d-flex justify-content-between">
+                <span>Progresso</span>
+                <span>{{ progress }}%</span>
+            </div>
+            <div class="progress my-1" style="height: 7px">
+                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="text-right mt-1">
+                Formulários coletados: {{ surv.num_responses }} de {{ survey.max_responses }}
+            </div>
+            {% endwith %}
+        </div>
+        <hr/>
+        <div class="row">
+            {% if survey.city %}
+            <div class="col col-auto">
+                <small>Cidade</small><br/>{{ survey.city }}
+            </div>
+            {% endif %}
+            {% if survey.client %}
+            <div class="col col-auto">
+                <small>Cliente</small><br/>{{ survey.client }}
+            </div>
+            {% endif %}
+            <div class="col">
+                <small>Criado em</small><br/>{{ survey.creation_date|date:"d \d\e F \d\e Y" }}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            {% if perms.responses.add_response %}
+            <a href="{% url 'responses:regional_create' survey.pk %}" class="btn btn-sm btn-outline-primary">Formulário</a>
+            {% endif %}
+            {% if perms.responses.add_response %}
+            <a href="{% url 'surveys:regional_meta' survey.pk %}" class="btn btn-sm btn-outline-primary">Metas</a>
+            {% endif %}
+            {% if perms.responses.view_response %}
+            <a href="{% url 'surveys:regional_results' survey.pk %}" class="btn btn-sm btn-outline-primary">Resultados</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

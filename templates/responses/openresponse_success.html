@@ -1,0 +1,21 @@
+{% extends 'simple_base.html' %}
+{% load static %}
+
+{% block title %}
+Pesquisa: {{ survey }}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro rounded p-3" style="background-color: {{survey.bg_color }};">
+        {% if survey.header %}
+        <img src="{{ survey.header.url }}" alt="{{ survey }}" style="display: block; margin: 0 auto; width: 100%; height: auto; max-width:250px; max-height: 100px;" />
+        {% endif %}
+    </div>
+
+    <div class="page-content text-center">
+        <h2>Formulário enviado com sucesso!</h2>
+        <h4 class="">Obrigado por contribuir com a nossa pesquisa!</h4>
+    </div>
+</div>
+{% endblock %}

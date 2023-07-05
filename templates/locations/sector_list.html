@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Setores{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'locations:city_list' %}">Cidades</a></li>
+    <li class="breadcrumb-item active">Setores</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro d-flex justify-content-between align-items-center">
+        <h3>Setores</h3>
+        <a href="{% url 'locations:sector_create' %}" class="btn btn-outline-primary">Novo Setor</a>
+    </div>
+    <div class="row sector-list">
+        {% for sector in sector_list %}
+        <div class="col col-12 col-lg-6 mb-4 pb-1">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div>
+                            <h5 class="card-title my-0">{{ sector }}</h5>
+                            <h6 class="my-0 mt-2 text-muted">{{ sector.city }}</h6>
+                        </div>
+                        <div class="dropdown ml-auto mr-0">
+                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Editar
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                <a href="{% url 'locations:sector_update' sector.pk %}"class="dropdown-item">Editar</a>
+                                <a href="{% url 'locations:sector_delete' sector.pk %}" class="dropdown-item">Excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row text-center pb-3">
+                        <div class="col border-right">
+                            <span class="h4">{{ sector.max_responses }}</span><br/>Formulários
+                        </div>
+                        <div class="col">
+                            <span class="h4">{{ sector.n_neighborhoods }}</span><br/>Bairros
+                        </div>
+                    </div>
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr class="thead-light">
+                                <th scope="col">Sexo</th>
+                                <th scope="col">Porcentagem</th>
+                                <th scope="col">Questionários</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for gender in sector.get_gender_surveys.values %}
+                                <tr>
+                                    <td>{{ gender.name }}</td>
+                                    <td>{{ gender.value }}%</td>
+                                    <td>{{ gender.surveys }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="thead-light">
+                                <th scope="col">Faixa etária</th>
+                                <th scope="col">Porcentagem</th>
+                                <th scope="col">Questionários</th>
+                            </tr>
+                            {% for age in sector.get_age_surveys.values %}
+                                <tr>
+                                    <td>{{ age.name }}</td>
+                                    <td>{{ age.value }}%</td>
+                                    <td>{{ age.surveys }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% include 'includes/pagination.html' %}
+</div>
+{% endblock main %}

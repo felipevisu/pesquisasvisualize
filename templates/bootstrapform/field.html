@@ -1,0 +1,110 @@
+{% load bootstrapform %}
+
+<div class="form-group">
+
+{% if field|is_date %}
+
+<label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+
+<div class="input-group date date-dp datetimepicker" id="date_{{ field.id_for_label }}" data-target-input="nearest">
+    {{ field }}
+    <div class="input-group-append" data-target="#date_{{ field.id_for_label }}" data-toggle="datetimepicker">
+        <span class="input-group-text">
+            <i class="fad fa-calendar-alt"></i>
+        </span>
+    </div>
+</div>
+
+{% elif field|is_datetime %}
+
+<label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+
+<div class="input-group date date-dtp datetimepicker" id="date_{{ field.id_for_label }}" data-target-input="nearest">
+    {{ field }}
+    <div class="input-group-append" data-target="#date_{{ field.id_for_label }}" data-toggle="datetimepicker">
+        <span class="input-group-text">
+            <i class="fad fa-calendar-alt"></i>
+        </span>
+    </div>
+</div>
+
+{% elif field|is_checkbox %}
+    <div class="custom-control custom-checkbox">
+        {{ field }}
+        <label class="custom-control-label {% if not field.field.required %}text-muted{% endif %}" for="{{ field.id_for_label }}">{{ field.label }}</label>
+    </div>
+
+{% elif field|is_multiple_checkbox %}
+    <label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+    {% for choice in field %}
+        <div class="custom-control custom-checkbox">
+            {% if form.is_bound %}
+                {% if field.errors %}
+                    <input id="{{ choice.data.attrs.id }}" class="custom-control-input is-invalid" type="checkbox" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
+                {% endif %}
+            {% else %}
+                <input id="{{ choice.data.attrs.id }}" class="custom-control-input" type="checkbox" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
+            {% endif %}
+            <label class="custom-control-label" for="{{ choice.data.attrs.id }}">{{ choice.data.label }}</label>
+        </div>
+    {% empty %}
+        <div>
+            Nenhuma opção disponível.
+        </div>
+    {% endfor %}
+
+{% elif field|is_radio %}
+    <label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+    {% for choice in field %}
+        {% if choice.data.value %}
+            <div class="custom-control custom-radio">
+                {% if form.is_bound %}
+                    {% if field.errors %}
+                        <input id="{{ choice.data.attrs.id }}" class="custom-control-input is-invalid" type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
+                    {% endif %}
+                {% else %}
+                    <input id="{{ choice.data.attrs.id }}" class="custom-control-input" type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
+                {% endif %}
+                <label for="{{ choice.data.attrs.id }}" class="custom-control-label">{{ choice.data.label }}</label>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+{% elif field|is_file %}
+    <label class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+    <div class="custom-file">
+        <input type="file" name="{{ field.name }}" class="custom-file-input" id="{{ field.id_for_label }}" />
+        <label class="custom-file-label" for="{{ field.id_for_label }}">Selecione um arquivo</label>
+    </div>
+    {% if field.initial %}
+        <div class="file-data pt-2">
+            <div>
+                <small>Atualmente: <a href="{{ field.initial.url }}">{{ field.initial }}</a></small>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input ml-4" name="{{ field.name }}-clear" id="{{ field.name }}-clear_id">
+                <label class="custom-control-label" for="{{ field.name }}-clear_id">Limpar</label>
+            </div>
+        </div>
+    {% endif %}
+
+{% elif field|is_select %}
+    <label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+    <div>
+        {{ field }}
+    </div>
+{% else %}
+    <label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
+    {{ field }}
+{% endif %}
+
+{% for error in field.errors %}
+<div class="invalid-feedback d-block">{{ error }}</div>
+{% endfor %}
+
+{% if field.help_text %}
+<small class="form-text text-muted">{{ field.help_text }}</small>
+{% endif %}
+
+</div>
+

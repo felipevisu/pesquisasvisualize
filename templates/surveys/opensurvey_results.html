@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load results %}
+{% load extras %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}{{ survey }} - Resultados{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/perfect-scrollbar.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item active">Resultados</li>
+{% endblock %}
+
+{% block main %}
+
+<form method="get" action="" id="filter" class="bg-white shadow-lg" novalidate>
+    <button type="button" class="close-filter text-danger" onclick="closeFilter()">Fechar</button>
+    <div class="filters p-4">
+        {{ filter.form|bootstrap }}
+    </div>
+    <button type="submit" class="send-filter text-primary">Filtrar resultados</button>
+</form>
+
+<div class="container">
+
+    <div class="page-intro d-lg-flex">
+        <div>
+            <h3 class="mb-2">{{ survey }} - Resultados</h3>
+            <h5>Formulários: {{ filter.qs.count }}</h5>
+        </div>
+        <div class="ml-auto mr-0 mt-3 mt-lg-0">
+            <button type="button" id="filtro-open" class="btn btn-outline-primary" onclick="openFilter()">Exibir filtros</button>
+        </div>
+    </div>
+
+    <div class="row pt-1">
+        {% for question in questions %}
+        
+            {% if question.chart_type == 'list' %}
+                <div class="col col-12 col-lg-6 mb-4 pb-1">
+                    <div class="card">
+                        <div class="card-body a-list">
+                            <div class="text-center p-2 mb-2">{{ question }}</div>
+                            {% results_list question filter.qs answers %}
+                        </div>
+                        <div class="card-footer">
+                            {% if perms.surveys.change_survey %}
+                                <a class="btn btn-outline-primary btn-sm" href="{% url 'surveys:question_modify' question.pk %}">Editar</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col col-12 col-lg-6 mb-4 pb-1">
+                    <div class="card h-100">
+                        <div class="card-body chart" id="chart-{{ question.pk }}"></div>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+</div>
+
+<div class="modal fade">
+    <div class="modal-dialog  modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-body p-3 text-center">
+                Carregando...
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/ajax-crud.js' %}"></script>
+<script src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'js/charts/highcharts.src.js' %}"></script>
+<script src="{% static 'js/charts/exporting.js' %}"></script>
+<script src="{% static 'js/charts/export-data.js' %}"></script>
+<script src="{% static 'js/charts/drilldown.js' %}"></script>
+
+<script>
+    const container = document.querySelector('#filter .filters');
+    const ps = new PerfectScrollbar(container);
+
+    const lists = document.querySelectorAll('.a-list');
+    lists.forEach(list => {
+        new PerfectScrollbar(list)
+    })
+
+    function openFilter() {
+        const filter = document.getElementById("filter");
+        filter.classList.add("filter-open");
+    }
+    function closeFilter() {
+        const filter = document.getElementById("filter");
+        filter.classList.remove("filter-open");
+    }
+</script>
+
+{% for question in questions %}
+    {% if question.chart_type == 'pie' %}
+        {% simple_pie_chart question filter.qs answers %}
+    {% elif question.chart_type == 'column' %}
+        {% simple_column_chart question filter.qs answers %}
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

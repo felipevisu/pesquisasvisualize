@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir cidade: {{ object }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'locations:city_list' %}">Cidades</a></li>
+    <li class="breadcrumb-item active">Excluir</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro">
+        <h3>Excluir cidade: {{ object }}</h3>
+    </div>
+
+    <div class="page-content">
+        <form method="POST" action="" novalidate>
+            {% csrf_token %}
+            <h5>Deseja mesmo excluir a cidade {{ object }}?</h5>
+            <p class="text-danger">Após a exclusão não será possível recuperar estes dados.</p>
+            <hr/>
+            <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

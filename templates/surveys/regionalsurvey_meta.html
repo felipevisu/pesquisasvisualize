@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load extras %}
+
+{% block title %}{{ object }} - Metas{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item active">Metas</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro d-lg-flex justify-content-between align-items-center">
+        <h3>{{ object }} - Metas</h3>
+        <a href="{% url 'responses:regional_create' object.pk %}" class="btn btn-outline-primary mt-3 mt-lg-0">Formulário</a>
+    </div>
+
+    {% for sector in meta.sectors.values %}
+        <div class="bg-white mb-4 rounded border px-4 pb-2 pt-3">
+            <h2 class="display-4">{{ sector.name }}</h2>
+            <h3>Total: {{ sector.total }}</h3>
+            <h4>Sexo</h4>
+            <div class="row mx-n2">
+                {% for gender in sector.genders.values %}
+                    <div class="col col-12 col-md-6 px-2 mb-3">
+                        <div class="border rounded p-2">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>{{ gender.name }}</span>
+                                <span>{{ gender.responses }} de {{ gender.surveys }}</span>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                                {% if gender.responses == gender.surveys %}
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {% progress gender.responses gender.surveys %}%;" aria-valuemin="0" aria-valuemax="100"></div>
+                                {% else %}
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {% progress gender.responses gender.surveys %}%;" aria-valuemin="0" aria-valuemax="100"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h4>Faixa Etária</h4>
+            <div class="row mx-n2">
+                {% for age in sector.age_groups.values %}
+                    <div class="col col-12 col-md-6 col-lg-4 px-2 mb-3">
+                        <div class="border rounded p-2">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>{{ age.name }}</span>
+                                <span>{{ age.responses }} de {{ age.surveys }}</span>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                                {% if age.responses == age.surveys %}
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {% progress age.responses age.surveys %}%;" aria-valuemin="0" aria-valuemax="100"></div>
+                                {% else %}
+                                <div class="progress-bar bg-warning role="progressbar" style="width: {% progress age.responses age.surveys %}%;" aria-valuemin="0" aria-valuemax="100"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if sector.neighborhoods.values %}
+            <h4>Bairros</h4>
+            <div class="row mx-n2">
+                {% for neigh in sector.neighborhoods.values %}
+                    <div class="col col-12 col-md-6 col-lg-4 px-2 mb-3">
+                        <div class="border rounded p-2">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>{{ neigh.name }}</span>
+                                <span>{{ neigh.responses }} de {{ neigh.surveys }}</span>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                                {% if neigh.responses == neigh.surveys %}
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {% progress neigh.responses neigh.surveys %}%;" aria-valuemin="0" aria-valuemax="100"></div>
+                                {% else %}
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {% progress neigh.responses neigh.surveys %}%;" aria-valuemin="0" aria-valuemax="100"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock main %}

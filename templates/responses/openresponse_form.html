@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}
+{% if object.pk %}
+Editar entrevista: {{ object }}
+{% else %}
+Nova entrevista: {{ form.survey }}
+{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item active">Formulário de entrevista</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro">
+        <h3>
+            {% if object.pk %}
+            Editar entrevista: {{ object }}
+            {% else %}
+            Nova entrevista: {{ form.survey }}
+            {% endif %}
+        </h3>
+    </div>
+
+    <div class="page-content">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form.get_question_fields %}
+                <div class="bg-secondary rounded px-3 py-2 mb-2 text-white">
+                    <b>Questão: {{ forloop.counter }}</b>
+                </div>
+                {{ field|bootstrap }}
+            {% endfor %}
+            <hr/>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

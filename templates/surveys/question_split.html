@@ -1,0 +1,52 @@
+{% load results %}
+
+<div class="js-modal">
+    <div class="modal-header">
+        <h5 class="modal-title">Gráfico de pergunta aberta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+    <div id="question-split"></div>
+        <script>
+            Highcharts.chart('question-split', {
+                chart: {
+                    type: 'bar',
+                    height: {{ height }},
+                },
+                title: {
+                    text: '{{ question }}'
+                },
+                accessibility: {
+                    announceNewData: {
+                        enabled: true
+                    }
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}%'
+                        }
+                    }
+                },
+                tooltip: {
+                    pointFormat: '<b>{point.y}% ({point.value})</b>'
+                },
+                series: [{
+                    name: 'Opções',
+                    colorByPoint: true,
+                    data: {{ series|safe }},
+                }]
+            });
+        </script>
+    </div>
+</div>

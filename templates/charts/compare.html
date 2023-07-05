@@ -1,0 +1,30 @@
+<script>
+    Highcharts.chart('chart-sector', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: '{{ question }}'
+        },
+        xAxis: {
+            categories: {{ chart.categories|safe }},
+        },
+        yAxis: {
+            min: 0,
+            title: null
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y}%</b>',
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}%'
+                },
+                enableMouseTracking: true
+            }
+        },
+        series: {{ chart.series|safe }},
+    });
+</script>

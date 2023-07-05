@@ -1,0 +1,47 @@
+<script>
+    Highcharts.chart('chart-{{ question.pk }}', {
+        chart: {
+            type: 'column',
+        },
+        title: {
+            text: '{{ question }}'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Total percent market share'
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}'
+                }
+            }
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y}</b>'
+        },
+        series: [{
+            name: 'Opções',
+            colorByPoint: true,
+            data: {{ chart.series|safe }},
+        }],
+        drilldown: {
+            series: {{ chart.drilldown|safe }}
+        }
+    });
+</script>

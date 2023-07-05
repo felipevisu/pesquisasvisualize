@@ -1,0 +1,15 @@
+{{ form.media }}
+
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+{% for error in form.non_field_errors %}
+    <div class="alert alert-danger py-2 px-3" role="alert">
+        {{error}}
+    </div>
+{% endfor %}
+
+{% for field in form.visible_fields %}
+    {% include 'bootstrapform/field.html' %}
+{% endfor %}

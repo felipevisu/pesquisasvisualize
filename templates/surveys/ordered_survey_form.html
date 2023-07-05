@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}
+Ordernar questões de: {{ object }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item active">Ordenar questões</li>
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <h3>Ordernar questões de: {{ object }}</h3>
+    <p class="lead">Arraste e solte as questões para ordená-las na ordem desejada.</p>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {% for formset in inlines %}
+            {{ formset.management_form }}
+            <fieldset id="sortable" class="sortable-choices formset-list"> 
+                {% for form in formset %}
+                    <div class="formset-row border rounded mt-3 px-4 py-3">
+                        <b>{{ form.instance }}</b>
+                        {{ form|bootstrap }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+        {% endfor %}
+        <hr/>
+        <button type="submit" class="btn btn-primary">Ordenar</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src='{% static "js/Sortable.min.js" %}'></script>
+<script>
+var el = document.getElementById('sortable');
+new Sortable(el, {
+    animation: 150,
+    onSort: function (/**Event*/evt) {
+        var forms = $('.formset-row');
+		for (var i = 0, formCount = forms.length; i < formCount; i++) {
+            $(forms.get(i)).find(":input[name*='order']").first().val(i+1);
+        }
+	},
+});
+</script>
+{% endblock %}

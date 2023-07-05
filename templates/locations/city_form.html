@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}
+{% if object.pk %}
+Editar cidade: {{ object }}
+{% else %}
+Nova cidade
+{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'locations:city_list' %}">Cidades</a></li>
+    <li class="breadcrumb-item active">{% if object.pk %}Editar{% else %}Nova{% endif %}</li>
+{% endblock %}
+
+{% block main %}
+<form action="" method="post" novalidate>
+    <div class="container">
+        <div class="page-intro">
+            <h3>
+                {% if object.pk %}
+                Editar cidade: {{ object }}
+                {% else %}
+                Nova cidade
+                {% endif %}
+            </h3>
+        </div>
+
+        <div class="page-content">
+            {% csrf_token %}
+
+            {{ form|bootstrap }}
+            
+            {% for formset in inlines %}
+                <div class="formset">
+                    <h4>Setores</h4>
+                    {{ formset.management_form }} 
+                    <div class="{{ formset.prefix }}-list"> 
+                        {% for form in formset %}
+                            <div id="{{ form.prefix }}-row" class="{{ formset.prefix }}-row {% if not form.instance.pk %}no-delete{% endif %} border mb-3 p-3">
+                                {{ form|bootstrap }}
+                                {% if not form.instance.pk %}
+                                    <button type="button" data-prefix="{{ formset.prefix }}" class="delete-row btn btn-sm btn-danger">Apagar</button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-none {{ formset.prefix }}-empty {{ formset.prefix }}-row no-delete border rounded mb-3 p-4">
+                        {{ formset.empty_form|bootstrap }}
+                        <button type="button" data-prefix="{{ formset.prefix }}" class="delete-row btn btn-sm btn-danger">Apagar</button>
+                    </div>
+                    <button type="button" data-prefix="{{ formset.prefix }}" class="add-row btn btn-sm btn-warning">Adicionar Setor</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% include 'includes/save_bar.html' %}
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+{% endblock %}

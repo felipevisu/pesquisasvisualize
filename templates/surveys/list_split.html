@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar questão{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'surveys:regional_results' question.survey.pk %}">{{ question.survey }}</a></li>
+<li class="breadcrumb-item active">Gráfico dividido</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro">
+        <h3>Questão: {{ question }}</h3>
+    </div>
+
+    <div class="page-content" id="chart" style="min-height: 400px; height: {{height}}px;">
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/charts/highcharts.src.js' %}"></script>
+<script src="{% static 'js/charts/exporting.js' %}"></script>
+<script src="{% static 'js/charts/export-data.js' %}"></script>
+<script src="{% static 'js/charts/drilldown.js' %}"></script>
+
+<script>
+    Highcharts.chart('chart', {
+        chart: {
+            type: 'bar',
+        },
+        title: {
+            text: '{{ question }}'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category'
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}%'
+                }
+            }
+        },
+        tooltip: {
+            pointFormat: '<b>{point.y}% ({point.value})</b>'
+        },
+        series: [{
+            name: 'Opções',
+            colorByPoint: true,
+            data: {{ series|safe }},
+        }]
+    });
+</script>
+{% endblock %}

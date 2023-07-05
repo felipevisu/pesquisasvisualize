@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item active">Clientes</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro d-flex justify-content-between align-items-center">
+        <h3>Clientes</h3>
+        <a href="{% url 'clients:create' %}" class="btn btn-outline-primary">Novo Cliente</a>
+    </div>
+    <div class="row client-list">
+        {% for client in client_list %}
+            <div class="col col-12 col-md-6 col-xl-4 mb-4 pb-1">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="card-title my-0">{{ client }}</h5>
+                            </div>
+                            <div class="dropdown ml-auto mr-0">
+                                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Editar
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <a href="{% url 'clients:update' client.pk %}" class="dropdown-item">Editar</a>
+                                    <a href="{% url 'clients:delete' client.pk %}" class="dropdown-item">Excluir</a>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="d-flex justify-content-between">
+                            Pesquisas realizadas:
+                            <span class="text-right">{{ client.n_surveys }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            Questionários coletados:
+                            <span class="text-right">{{ client.n_responses }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% include 'includes/pagination.html' %}
+</div>
+{% endblock main %}

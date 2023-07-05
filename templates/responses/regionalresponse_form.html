@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}
+{% if object.pk %}
+Editar entrevista: {{ object }}
+{% else %}
+Nova entrevista: {{ form.survey }}
+{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item active">Formulário de entrevista</li>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro d-lg-flex align-items-center justify-content-between">
+        <h3>
+            {% if object.pk %}
+            Editar entrevista: {{ object }}
+            {% else %}
+            Nova entrevista: {{ form.survey }}
+            {% endif %}
+        </h3>
+        <a href="{% url 'surveys:regional_meta' form.survey.pk %}" class="btn btn-outline-primary mt-3 mt-lg-0">Metas</a>
+    </div>
+
+    <div class="page-content">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.sector|bootstrap }}
+            {{ form.neighborhood|bootstrap }}
+            {{ form.gender|bootstrap }}
+            {{ form.age_group|bootstrap }}
+            {% for field in form.get_question_fields %}
+                <div class="bg-secondary rounded px-3 py-2 mb-2 text-white">
+                    <b>Questão: {{ forloop.counter }}</b>
+                </div>
+                {{ field|bootstrap }}
+            {% endfor %}
+            <hr/>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(".question-title").each(function(index) {
+    $(this).append(index+1);
+});
+</script>
+{% endblock %}

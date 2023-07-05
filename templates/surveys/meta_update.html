@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ object }}{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro">
+        <h3>{{ object }}</h3>
+    </div>
+
+    <div class="page-content">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            <p>As metas de coleta dos questionários não são atualizadas automáticamente quando ocorre uma alteração nas
+                cidades, setores ou bairros.<br />Clique em <b>atualizar metas</b> para obter os valores mais recentes
+                para esta pesquisa.</p>
+            <hr />
+            <button type="submit" class="btn btn-primary">Atualizar metas</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

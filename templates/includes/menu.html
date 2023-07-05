@@ -1,0 +1,41 @@
+<div class="bg-primary">
+    <nav class="container navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand font-weight-bold" href="{% url 'surveys:list' %}">Pesquisas Visu</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mr-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'surveys:list' %}">Pesquisas</a>
+                </li>
+                {% if perms.clients.view_client %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'clients:list' %}">Clientes</a>
+                </li>
+                {% endif %}
+                {% if perms.locations.view_city %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Localizações</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'locations:city_list' %}">Cidades</a>
+                        <a class="dropdown-item" href="{% url 'locations:sector_list' %}">Setores</a>
+                        <a class="dropdown-item" href="{% url 'locations:neighborhood_list' %}">Bairros</a>
+                    </div>
+                </li>
+                {% endif %}
+                {% if perms.accounts.view_user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:list' %}">Usuários</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">({{ user }}) Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

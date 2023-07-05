@@ -1,0 +1,8 @@
+{% load extras %}
+
+{% for result in results %}
+    <div class="d-flex justify-content-between border-top py-1">
+        <div>{{ result.option }}</div>
+        <div>{% progress result.total total %}% ({{ result.total }})</div>
+    </div>
+{% endfor %}

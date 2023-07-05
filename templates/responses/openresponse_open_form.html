@@ -1,0 +1,35 @@
+{% extends 'simple_base.html' %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}
+{% if object.pk %}
+Editar entrevista: {{ object }}
+{% else %}
+Nova entrevista: {{ form.survey }}
+{% endif %}
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="page-intro rounded p-3" style="background-color: {{ form.survey.bg_color }};">
+        {% if form.survey.header %}
+        <img src="{{ form.survey.header.url }}" alt="{{ form.survey }}" style="display: block; margin: 0 auto; width: 100%; height: auto; max-width:250px; max-height: 100px;" />
+        {% endif %}
+    </div>
+
+    <div class="page-content">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form.get_question_fields %}
+                <div class="bg-secondary rounded px-3 py-2 mb-2 text-white">
+                    <b>Questão: {{ forloop.counter }}</b>
+                </div>
+                {{ field|bootstrap }}
+            {% endfor %}
+            <hr/>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

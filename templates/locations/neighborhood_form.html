@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrapform %}
+
+{% block title %}
+{% if object.pk %}
+Editar bairro: {{ object }}
+{% else %}
+Novo bairro
+{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'locations:city_list' %}">Cidades</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'locations:sector_list' %}">Setores</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'locations:neighborhood_list' %}">Bairros</a></li>
+    <li class="breadcrumb-item active">{% if object.pk %}Editar{% else %}Novo{% endif %}</li>
+{% endblock %}
+
+
+{% block main %}
+<form action="" method="post" novalidate>
+    <div class="container">
+        <div class="page-intro">
+            <h3>
+                {% if object.pk %}
+                Editar bairro: {{ object }}
+                {% else %}
+                Novo bairro
+                {% endif %}
+            </h3>
+        </div>
+
+        <div class="page-content">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+        </div>
+    </div>
+    {% include 'includes/save_bar.html' %}
+</form>
+{% endblock %}

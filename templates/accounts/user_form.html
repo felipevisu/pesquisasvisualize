@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load bootstrapform %}
+
+{% block title %}
+{% if object.pk %}
+Editar usuário: {{ object }}
+{% else %}
+Novo usuário
+{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'surveys:list' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:list' %}">Usuários</a></li>
+    <li class="breadcrumb-item active">{% if object.pk %}Editar{% else %}Novo{% endif %}</li>
+{% endblock %}
+
+{% block main %}
+<form method="POST" action="" enctype="multipart/form-data" novalidate>
+    <div class="container">
+        <div class="page-intro">
+            <h3>
+                {% if object.pk %}
+                Editar usuário: {{ object }}
+                {% else %}
+                Novo usuário
+                {% endif %}
+            </h3>
+        </div>
+        <div class="page-content">
+            {% csrf_token %}
+            {{ form|bootstrap }}
+        </div>
+    </div>
+    {% include 'includes/save_bar.html' %}
+</form>
+{% endblock %}
