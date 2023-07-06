@@ -11,7 +11,7 @@ Criador de formulários desenvolvido em Python com o framework Django. Focado em
 
 O criador de formulários permite definir diversos tipos de campos customizados;
 
-![Screenshot from 2023-07-05 20-26-27](https://github.com/felipevisu/pesquisasvisualize/assets/9272668/ef04c791-26a6-4fd8-b762-bcdd8e7f2a51)
+![Screenshot from 2023-07-05 20-26-27](https://github.com/felipevisu/pesquisasvisualize/assets/9272668/490fe4af-54d1-498f-92cd-797ba43a7b8b)
 
 **Opções:**
 * Seleção;
@@ -25,7 +25,7 @@ Além de ordenar as questões, marcar questões como obrigatórias e validação
 
 Definição de metas a serem atigindas na coleta de formulários.
 
-![Screenshot from 2023-07-05 20-48-14](https://github.com/felipevisu/pesquisasvisualize/assets/9272668/0430947a-a7f9-415a-b938-66a009975129)
+![Screenshot from 2023-07-05 20-48-14](https://github.com/felipevisu/pesquisasvisualize/assets/9272668/5b9f5332-45ca-4459-958e-f23f9633f28f)
 
 **Opções:**
 * Bairros;
@@ -38,7 +38,7 @@ Definição de metas a serem atigindas na coleta de formulários.
 
 Visualização dos resultaros em gráficos e possibilidade de aplicar filtros e combinar resultados.
 
-![Screenshot from 2023-07-05 20-27-03](https://github.com/felipevisu/pesquisasvisualize/assets/9272668/c9efc6b7-bff2-4dd6-b9ae-0c6f61d774b9)
+![Screenshot from 2023-07-05 20-27-03](https://github.com/felipevisu/pesquisasvisualize/assets/9272668/be322c1c-c782-44e7-958c-4bbecbb02ff1)]
 
 ## Localhost execution
 
