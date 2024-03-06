@@ -1,5 +1,6 @@
 import os
-from decouple import config, Csv
+
+from decouple import Csv, config
 from django.contrib.messages import constants as messages
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -162,19 +163,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
-
-# Media files
-
-MEDIA_URL = 'http://media.pesquisasvisualize.com.br/'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-DEFAULT_FILE_STORAGE = 'storages.backends.ftp.FTPStorage'
-
-FTP_USER = config('FTP_USER')
-FTP_PASSWORD = config('FTP_PASSWORD')
-FTP_HOST = config('DB_HOST')
-FTP_PATH = config('FTP_PATH')
-
-FTP_STORAGE_LOCATION = f'ftp://{FTP_USER}:{FTP_PASSWORD}@{FTP_HOST}:21/{FTP_PATH}'
