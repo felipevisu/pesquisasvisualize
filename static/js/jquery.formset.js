@@ -15,11 +15,11 @@ function cloneMore(prefix) {
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
     newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function () {
         var name = $(this).attr('name').replace('-' + '__prefix__' + '-', '-' + total + '-');
-        var id = 'id_' + name;
+        var id = $(this).attr('id').replace('-' + '__prefix__' + '-', '-' + total + '-');
         $(this).attr({
             'name': name,
             'id': id
-        }).val('').removeAttr('checked');
+        })
     });
     newElement.find('label').each(function () {
         var forValue = $(this).attr('for');

@@ -26,9 +26,6 @@ Nova pesquisa
                 Nova pesquisa
                 {% endif %}
             </h3>
-            {% if object.pk %}
-            <a href="{% url 'surveys:meta_update' object.pk %}" class="btn btn-outline-primary mt-3 mt-lg-0">Atualizar Metas</a>
-            {% endif %}
         </div>
 
         <div class="page-content">
@@ -36,9 +33,10 @@ Nova pesquisa
             {% csrf_token %}
             {{ form|bootstrap }}
             
-            {% with Questions as formset %}
+
+            {% with Interviewers as formset %}
                 <div class="formset mb-4">
-                    <h4>Questões</h4>
+                    <h4>Entrevistadores(as)</h4>
                     {{ formset.management_form }} 
                     <div class="{{ formset.prefix }}-list"> 
                         {% for form in formset %}
@@ -54,7 +52,7 @@ Nova pesquisa
                         {{ formset.empty_form|bootstrap }}
                         <button type="button" data-prefix="{{ formset.prefix }}" class="delete-row btn btn-sm btn-danger">Apagar</button>
                     </div>
-                    <button type="button" data-prefix="{{ formset.prefix }}" class="add-row btn btn-sm btn-warning">Adicionar Questão</button>
+                    <button type="button" data-prefix="{{ formset.prefix }}" class="add-row btn btn-sm btn-warning">Adicionar Entrevistador(a)</button>
                 </div>
             {% endwith %}
         </div>

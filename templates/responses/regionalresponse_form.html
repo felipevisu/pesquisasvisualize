@@ -31,8 +31,13 @@ Nova entrevista: {{ form.survey }}
     <div class="page-content">
         <form action="" method="post" novalidate>
             {% csrf_token %}
+            {% if form.survey.enumerated %}
+            {{ form.control_number|bootstrap }}
+            {% endif %}
             {{ form.sector|bootstrap }}
+            {% if not form.survey.no_neigh %}
             {{ form.neighborhood|bootstrap }}
+            {% endif %}
             {{ form.gender|bootstrap }}
             {{ form.age_group|bootstrap }}
             {% for field in form.get_question_fields %}
