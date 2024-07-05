@@ -38,13 +38,7 @@
     <label for="{{ field.id_for_label }}" class="{% if not field.field.required %}text-muted{% endif %}">{{ field.label }}</label>
     {% for choice in field %}
         <div class="custom-control custom-checkbox">
-            {% if form.is_bound %}
-                {% if field.errors %}
-                    <input id="{{ choice.data.attrs.id }}" class="custom-control-input is-invalid" type="checkbox" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
-                {% endif %}
-            {% else %}
-                <input id="{{ choice.data.attrs.id }}" class="custom-control-input" type="checkbox" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
-            {% endif %}
+            <input id="{{ choice.data.attrs.id }}" class="custom-control-input {% if field.errors %}is-invalid{% endif %}" type="checkbox" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
             <label class="custom-control-label" for="{{ choice.data.attrs.id }}">{{ choice.data.label }}</label>
         </div>
     {% empty %}
@@ -58,13 +52,7 @@
     {% for choice in field %}
         {% if choice.data.value %}
             <div class="custom-control custom-radio">
-                {% if form.is_bound %}
-                    {% if field.errors %}
-                        <input id="{{ choice.data.attrs.id }}" class="custom-control-input is-invalid" type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
-                    {% endif %}
-                {% else %}
-                    <input id="{{ choice.data.attrs.id }}" class="custom-control-input" type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
-                {% endif %}
+                <input id="{{ choice.data.attrs.id }}" class="custom-control-input {% if field.errors %}is-invalid{% endif %}" type="radio" name="{{ choice.data.name }}" value="{{ choice.data.value }}" {% if choice.data.selected %}checked="checked"{% endif %} />
                 <label for="{{ choice.data.attrs.id }}" class="custom-control-label">{{ choice.data.label }}</label>
             </div>
         {% endif %}
