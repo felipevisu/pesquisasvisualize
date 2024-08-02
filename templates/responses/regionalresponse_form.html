@@ -56,12 +56,17 @@ Nova entrevista: {{ form.survey }}
                     document.addEventListener('DOMContentLoaded', function() {
                         var checkbox = document.getElementById('{{ field.name }}-empty_id');
                         var textInput = document.getElementById('{{ field.id_for_label }}');
-
+                        if(textInput.value === 'NS/NR'){
+                            textInput.readOnly = true;
+                            checkbox.checked = true;
+                        };
                         checkbox.addEventListener('change', function() {
                             if (checkbox.checked) {
                                 textInput.value = 'NS/NR';
+                                textInput.readOnly = true;
                             } else {
                                 textInput.value = '';
+                                textInput.readOnly = false;
                             }
                         });
                     });
