@@ -65,7 +65,7 @@ class ResponseForm(forms.ModelForm):
 
             if q.required:
                 self.fields["question_%d" % q.pk].required = True
-                self.fields["question_%d" % q.pk].widget.attrs["class"] = "required"
+                self.fields["question_%d" % q.pk].widget.attrs["class"] = "required "
             else:
                 self.fields["question_%d" % q.pk].required = False
 

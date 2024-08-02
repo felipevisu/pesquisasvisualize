@@ -40,12 +40,37 @@ Nova entrevista: {{ form.survey }}
             {% endif %}
             {{ form.gender|bootstrap }}
             {{ form.age_group|bootstrap }}
+
             {% for field in form.get_question_fields %}
                 <div class="bg-secondary rounded px-3 py-2 mb-2 text-white">
                     <b>Questão: {{ forloop.counter }}</b>
                 </div>
+
                 {{ field|bootstrap }}
+                {% if field.field.required and field|is_text %}
+                <div class="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" value="NS/NR" class="custom-control-input ml-4" name="{{ field.name }}-empty" id="{{ field.name }}-empty_id">
+                    <label class="custom-control-label" for="{{ field.name }}-empty_id">NS/NR</label>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var checkbox = document.getElementById('{{ field.name }}-empty_id');
+                        var textInput = document.getElementById('{{ field.id_for_label }}');
+
+                        checkbox.addEventListener('change', function() {
+                            if (checkbox.checked) {
+                                textInput.value = 'NS/NR';
+                                textInput.disabled = true;
+                            } else {
+                                textInput.value = '';
+                                textInput.disabled = false;
+                            }
+                        });
+                    });
+                </script>
+                {% endif %}
             {% endfor %}
+            
             <hr/>
             <button type="submit" class="btn btn-primary">Enviar</button>
         </form>

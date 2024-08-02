@@ -36,7 +36,7 @@ class Survey(models.Model):
     enumerated = models.BooleanField(
         "enumerada",
         default=False,
-        help_text="Para pesquisas feitas no papel enumerado o número de série de cara questionário deverá ser informado",
+        help_text="Para pesquisas feitas no papel enumerado o número de série de cada questionário deverá ser informado",
     )
 
     class Meta:
