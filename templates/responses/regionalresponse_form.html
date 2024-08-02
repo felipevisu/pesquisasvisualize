@@ -60,10 +60,8 @@ Nova entrevista: {{ form.survey }}
                         checkbox.addEventListener('change', function() {
                             if (checkbox.checked) {
                                 textInput.value = 'NS/NR';
-                                textInput.disabled = true;
                             } else {
                                 textInput.value = '';
-                                textInput.disabled = false;
                             }
                         });
                     });
