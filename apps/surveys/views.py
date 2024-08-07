@@ -570,7 +570,9 @@ def export_survey_xls(request, pk):
         ]
         for answer in res.answers.order_by("question"):
             row = row + [answer.body.replace("[", "").replace("]", "").replace("'", "")]
-            row = row + [res.interviewer, res.control_number]
+
+        row = row + [res.interviewer, res.control_number]
+
         index = index + 1
         for col in range(len(row)):
             ws.write(index, col, row[col], font_style)
